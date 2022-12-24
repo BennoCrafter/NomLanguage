@@ -47,3 +47,5 @@ def start():
         entcode()
     if mode == "2":
         decode()
+
+start()
