@@ -42,7 +42,7 @@ def decode():
 
 
 def start():
-    mode = input(" \n Willst du ein eine Nachricht verschlüsseln oder entschlüsseln [1,2]")
+    mode = input("\n Willst du ein eine Nachricht verschlüsseln oder entschlüsseln [1,2]")
 
     if mode == "1":
         entcode()
