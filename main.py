@@ -27,6 +27,7 @@ def entcode():
     [print(dictionary.get(x), end="") for x in entries]
     start()
 
+
 def decode():
     entries = input("Was willst du entschlüsseln?:")
     entries = split_string(entries, 4)
@@ -41,11 +42,12 @@ def decode():
 
 
 def start():
-    mode = input("Willst du ein eine Nachricht verschlüsseln oder entschlüsseln [1,2]")
+    mode = input(" \n Willst du ein eine Nachricht verschlüsseln oder entschlüsseln [1,2]")
 
     if mode == "1":
         entcode()
     if mode == "2":
         decode()
+
 
 start()
