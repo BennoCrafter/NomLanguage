@@ -41,11 +41,9 @@ def decode():
 
 
 def start():
-    global mode
     mode = input("Willst du ein eine Nachricht verschlüsseln oder entschlüsseln [1,2]")
 
-
-if mode == "1":
-    entcode()
-if mode == "2":
-    decode()
+    if mode == "1":
+        entcode()
+    if mode == "2":
+        decode()
