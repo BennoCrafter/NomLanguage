@@ -38,7 +38,7 @@ def decode():
             key = [k for k, v in dictionary.items() if v == entry][0]
             print(key,end="")
         else:
-            print("Fehler!")
+            print()
 
 
 if mode == "1":
