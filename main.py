@@ -1,5 +1,3 @@
-mode = input("Willst du ein eine Nachricht verschlüsseln oder entschlüsseln [1,2]")
-
 dictionary = {'a': ".nom", 'b': ".Nom", 'c': ".NOm", 'd': ".NOM", 'e': ".noM", 'f': ".NoM", 'g': ".nOm", 'h': "no.M",
               'i': "nOM.", 'j': "Nom.", 'k': "N.OM", 'l': "NOm.", 'm': "NOM.", 'n': "nO.M", 'o': "NoM.", 'p': "nOm.",
               'q': "N.om",
@@ -8,9 +6,9 @@ dictionary = {'a': ".nom", 'b': ".Nom", 'c': ".NOm", 'd': ".NOM", 'e': ".noM", '
 noms = dictionary.values()
 
 
-def split_string(s,x):
+def split_string(s, x):
     substrings = []
-    for i in range(0, len(s),x):
+    for i in range(0, len(s), x):
         substrings.append(s[i:i + x])
     return substrings
 
@@ -27,18 +25,24 @@ def entcode():
     entries = input("Was willst du verschlüsseln?:").lower()
     entries = split_string(entries, 1)
     [print(dictionary.get(x), end="") for x in entries]
-
+    start()
 
 def decode():
     entries = input("Was willst du entschlüsseln?:")
-    entries = split_string(entries,4)
+    entries = split_string(entries, 4)
     for entry in entries:
         position = get_position(entry, noms)
         if position >= 0:
             key = [k for k, v in dictionary.items() if v == entry][0]
-            print(key,end="")
+            print(key, end="")
         else:
             print()
+    start()
+
+
+def start():
+    global mode
+    mode = input("Willst du ein eine Nachricht verschlüsseln oder entschlüsseln [1,2]")
 
 
 if mode == "1":
