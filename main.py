@@ -24,7 +24,7 @@ def get_position(element, lst):
 
 
 def entcode():
-    entries = input("Was willst du verschlüsseln?:")
+    entries = input("Was willst du verschlüsseln?:").lower()
     entries = split_string(entries, 1)
     [print(dictionary.get(x), end="") for x in entries]
 
