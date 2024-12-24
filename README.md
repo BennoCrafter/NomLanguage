@@ -1,2 +1,2 @@
 # NomLanguage
-Its a own language with the letters n,o,m and . 
+Its an own language with the letters n,o,m

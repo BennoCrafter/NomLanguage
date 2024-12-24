@@ -1,53 +1,66 @@
-dictionary = {'a': ".nom", 'b': ".Nom", 'c': ".NOm", 'd': ".NOM", 'e': ".noM", 'f': ".NoM", 'g': ".nOm", 'h': "no.M",
-              'i': "nOM.", 'j': "Nom.", 'k': "N.OM", 'l': "NOm.", 'm': "NOM.", 'n': "nO.M", 'o': "NoM.", 'p': "nOm.",
-              'q': "N.om",
-              'r': "n.oM", 's': "No.m", 't': "NO.m", 'u': "no.m", 'v': "NO.M", 'w': "nO.m", 'x': "N.oM", 'y': "n.OM",
-              'z': "N.Om", " ": "No.M"}
-noms = dictionary.values()
+import argparse
 
 
-def split_string(s, x):
-    substrings = []
-    for i in range(0, len(s), x):
-        substrings.append(s[i:i + x])
-    return substrings
+def get_all_possible_combinations(input_chars: list[str], combination_length: int) -> list[str]:
+    """Generate all possible combinations of characters from input_chars of specified length"""
+    if combination_length == 1:
+        return input_chars
+
+    all_combinations = []
+    for first_char in input_chars:
+        shorter_combinations = get_all_possible_combinations(input_chars, combination_length - 1)
+        for combo in shorter_combinations:
+            all_combinations.append(first_char + combo)
+
+    return all_combinations
 
 
-def get_position(element, lst):
-    lst = list(lst)  # Convert dict_values to a list
-    if element in lst:
-        return lst.index(element)
-    else:
-        return -1
+class NomLanguage:
+    def __init__(self, mapping: dict[str, str]) -> None:
+        self.mapping = mapping
+        self.reverse_mapping = {v: k for k, v in self.mapping.items()}
+
+    def encode(self, msg: str) -> str:
+        out: str = ""
+        for char in msg:
+            out += self.mapping.get(char, "")
+
+        return out
+
+    def decode(self, msg: str) -> str | None:
+        if len(msg) % 3 != 0:
+            return None
+
+        out: str = ""
+        for i in range(0, len(msg), 3):
+            n = msg[i:i+3]
+            out += self.reverse_mapping.get(n, "")
+        return out
 
 
-def entcode():
-    entries = input("Was willst du verschlüsseln?:").lower()
-    entries = split_string(entries, 1)
-    [print(dictionary.get(x), end="") for x in entries]
-    start()
+def main(mode: str, msg: str) -> str | None:
+    noms = get_all_possible_combinations(["n", "o", "m"], 3)
+    abc = list("abcdefghijklmnopqrstuvwxyz ")
+
+    nl: NomLanguage = NomLanguage(mapping=dict(zip(abc, noms)))
+
+    if mode == "encode":
+        return nl.encode(msg)
+    elif mode == "decode":
+        return nl.decode(msg)
+
+    return None
 
 
-def decode():
-    entries = input("Was willst du entschlüsseln?:")
-    entries = split_string(entries, 4)
-    for entry in entries:
-        position = get_position(entry, noms)
-        if position >= 0:
-            key = [k for k, v in dictionary.items() if v == entry][0]
-            print(key, end="")
-        else:
-            print()
-    start()
+if __name__ == "__main__":
+    parser = argparse.ArgumentParser(description="Tool to encode or decode messages in Nom language")
+    parser.add_argument('mode', choices=['encode', 'decode'], help='Whether to encode or decode the message')
+    parser.add_argument('message', help='Message to encode/decode')
+    args = parser.parse_args()
 
+    out = main(args.mode, args.message.lower())
+    if out is None:
+        print(f"Failed to {args.mode}")
+        exit()
 
-def start():
-    mode = input("\n Willst du ein eine Nachricht verschlüsseln oder entschlüsseln [1,2]")
-
-    if mode == "1":
-        entcode()
-    if mode == "2":
-        decode()
-
-
-start()
+    print(out)
